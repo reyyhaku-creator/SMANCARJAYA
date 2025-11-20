@@ -60,7 +60,7 @@
 
     <section class="card calc">
       <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
-        <div style="font-weight:600">Super Kalkulator</div>
+        <div style="font-weight:600">Kalkulator Cerdas</div>
         <div class="controls">
           <button id="modeToggle" class="toggle">Mode: Kalkulator</button>
         </div>
@@ -71,7 +71,7 @@
           <div id="expr" class="expr"></div>
           <div id="value">0</div>
         </div>
-        <div style="text-align:right;color:var(--muted);font-size:12px">Keyboard friendly</div>
+        <div style="text-align:right;color:var(--muted);font-size:12px">Total</div>
       </div>
 
       <div class="keys" role="group" aria-label="Buttons">
@@ -257,7 +257,7 @@
   });
 
   document.getElementById('copyShare').addEventListener('click', async ()=>{
-    const txt = Total: ${rTotal.textContent} — Per orang: ${rPer.textContent} (Pajak ${taxEl.value}%, Service ${serviceEl.value}%);
+    const txt = `Total: ${rTotal.textContent} — Per orang: ${rPer.textContent} (Pajak ${taxEl.value}%, Service ${serviceEl.value}%)`;
     try{ await navigator.clipboard.writeText(txt); alert('Hasil disalin ke clipboard'); }catch(e){ prompt('Salin manual:', txt); }
   });
 
