@@ -1,4 +1,4 @@
-!doctype html>
+<!doctype html>
 
 <html lang="id">
 <head>
@@ -20,13 +20,12 @@
 </head>
 <body>
   <div class="calculator" role="application" aria-label="Kalkulator Sederhana">
-    <div id="display" class="display">0</div><div class="keys">
-  <button class="gray" data-action="clear">C</button>
-  <button class="gray" data-action="plusminus">±</button>
-  <button class="gray" data-action="percent">%</button>
-  <button class="op" data-action="/">÷</button>
-
-  <button data-number="7">7</button>
+    <div id="display" class="display">0</div>
+    <div class="keys">
+      <button class="gray" data-action="clear">C</button>
+      <button class="gray" data-action="plusminus">±</button>
+      <button class="gray" data-action="percent">%</button>
+      <button class="op" data-action="/">÷</button><button data-number="7">7</button>
   <button data-number="8">8</button>
   <button data-number="9">9</button>
   <button class="op" data-action="*">×</button>
@@ -51,41 +50,27 @@
       const display = document.getElementById('display');
       let first = null, operator = null, waitingForSecond = false;
 
-      function updateDisplay(text){
-        display.textContent = String(text).slice(0,18);
-      }
+      function updateDisplay(text){ display.textContent = String(text).slice(0,18); }
 
       function inputDigit(d){
-        if(waitingForSecond){
-          updateDisplay(d);
-          waitingForSecond = false;
-        } else {
-          updateDisplay(display.textContent === '0' ? d : display.textContent + d);
-        }
+        if(waitingForSecond){ updateDisplay(d); waitingForSecond = false; }
+        else{ updateDisplay(display.textContent === '0' ? d : display.textContent + d); }
       }
 
       function inputDot(){
-        if(waitingForSecond){
-          updateDisplay('0.');
-          waitingForSecond = false;
-          return;
-        }
-        if(!display.textContent.includes('.')){
-          updateDisplay(display.textContent + '.');
-        }
+        if(waitingForSecond){ updateDisplay('0.'); waitingForSecond = false; return; }
+        if(!display.textContent.includes('.')) updateDisplay(display.textContent + '.');
       }
 
       function clearAll(){ first = null; operator = null; waitingForSecond = false; updateDisplay('0'); }
 
       function toggleSign(){ updateDisplay(String(parseFloat(display.textContent) * -1)); }
-
       function percent(){ updateDisplay(String(parseFloat(display.textContent) / 100)); }
 
       function performCalculation(nextOperator){
         const inputValue = parseFloat(display.textContent);
-        if(first === null){
-          first = inputValue;
-        } else if(operator){
+        if(first === null){ first = inputValue; }
+        else if(operator){
           const result = compute(first, inputValue, operator);
           first = result;
           updateDisplay(result);
@@ -100,44 +85,39 @@
           case '-': return +(a - b).toPrecision(12);
           case '*': return +(a * b).toPrecision(12);
           case '/': return b === 0 ? 'Error' : +(a / b).toPrecision(12);
+          default: return b;
         }
-        return b;
       }
 
-      document.querySelector('.keys').addEventListener('click', (e)=>{
+      document.querySelector('.keys').addEventListener('click',(e)=>{
         const target = e.target;
         if(target.dataset.number !== undefined){
           if(target.dataset.number === '.') inputDot(); else inputDigit(target.dataset.number);
           return;
         }
+
         const action = target.dataset.action;
         if(!action) return;
         if(action === 'clear') clearAll();
         else if(action === 'plusminus') toggleSign();
         else if(action === 'percent') percent();
-        else if(action === '='){
-          performCalculation(null);
-          operator = null;
-          waitingForSecond = false;
-          first = null;
-        } else {
-          performCalculation(action);
-        }
+        else if(action === '='){ performCalculation(null); operator = null; waitingForSecond = false; first = null; }
+        else performCalculation(action);
       });
 
-      // Keyboard support
       window.addEventListener('keydown',(ev)=>{
         const key = ev.key;
         if(/^[0-9]$/.test(key)) inputDigit(key);
         else if(key === '.') inputDot();
-        else if(key === 'Enter' || key === '='){
-          performCalculation(null); operator = null; waitingForSecond = false; first = null;
-        } else if(key === '+'||key === '-'||key === '*'||key === '/') performCalculation(key);
+        else if(key === 'Enter' || key === '='){ performCalculation(null); operator = null; waitingForSecond = false; first = null; }
+        else if(['+','-','*','/'].includes(key)) performCalculation(key);
         else if(key === 'Backspace'){
           const cur = display.textContent;
           updateDisplay(cur.length > 1 ? cur.slice(0,-1) : '0');
-        } else if(key.toLowerCase() === 'c') clearAll();
+        }
+        else if(key.toLowerCase() === 'c') clearAll();
       });
 
     })();
-  </sc
+  </script></body>
+</html>
