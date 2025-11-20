@@ -3,83 +3,79 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kalkulator Patungan Keren</title>
+  <title>Kalkulator Patungan — Glassmorphism</title>
   <style>
+    /* Glassmorphism theme + modern spacing */
     :root{
-      --bg:#f3f4f6; --card:#ffffff; --muted:#6b7280; --accent:#6366f1; --accent-2:#a855f7; --glass:rgba(15,23,42,0.06);
+      --bg1:#f0f4ff; --bg2:#fff7fb;
+      --card-bg: rgba(255,255,255,0.58);
+      --card-border: rgba(255,255,255,0.6);
+      --muted:#57606a;
+      --accent:#6d28d9; /* purple */
+      --accent-2:#ff7a45; /* warm orange */
+      --glass: rgba(255,255,255,0.18);
+      --glass-2: rgba(13,17,23,0.06);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
     *{box-sizing:border-box}
-    body{min-height:100vh;margin:0;padding:28px;background:linear-gradient(180deg,var(--bg),#eef2ff);display:flex;align-items:flex-start;justify-content:center}
-    .container{width:100%;max-width:980px;display:grid;grid-template-columns:1fr 420px;gap:20px}
+    html,body{height:100%;}
+    body{min-height:100vh;margin:0;padding:36px;background:linear-gradient(135deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center}
+
+    .container{width:100%;max-width:980px;display:grid;grid-template-columns:1fr 420px;gap:26px;align-items:start}
+
     header{grid-column:1/-1;display:flex;align-items:center;gap:16px}
     .logo{display:flex;flex-direction:column}
-    .title{font-size:20px;font-weight:700}
-    .subtitle{color:var(--muted);font-size:13px}
+    .title{font-size:22px;font-weight:800;color:#0f172a}
+    .subtitle{color:var(--muted);font-size:13px;margin-top:6px}
 
-    .card{background:var(--card);border-radius:24px;padding:18px;box-shadow:0 12px 32px rgba(0,0,0,.06)}
-
-    .card {
-      background: rgba(255,255,255,0.55);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255,255,255,0.3);
-    }
-
-    body {
-      background: linear-gradient(135deg, #e0e7ff, #fdf2f8);
-    }
-
-    body {
-     letter-spacing: 0.2px;
-    }
-
-   .title {
-     font-weight: 800;
-     font-size: 22px;
-    }
+    /* Glass card */
+    .card{background:var(--card-bg);backdrop-filter:blur(12px) saturate(120%);border-radius:18px;padding:22px;border:1px solid var(--card-border);box-shadow:0 12px 30px rgba(18,24,40,0.08)}
 
     /* Left: super-calculator */
-    .calc{display:flex;flex-direction:column;gap:12px}
-    .display{height:72px;background:#0b1220;color:#e6eef8;border-radius:10px;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;font-size:28px;overflow:hidden}
-    .display .expr{color:var(--muted);font-size:13px}
-    .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    button.k{height:56px;border-radius:10px;border:0;font-size:18px;cursor:pointer;background:#f3f4f6}
-    button.op{background:var(--accent-2);color:white}
-    button.equal{grid-column:span 2;background:var(--accent);color:white}
+    .calc{display:flex;flex-direction:column;gap:14px}
+    .display{height:84px;background:linear-gradient(180deg, rgba(16,24,40,0.96), rgba(11,17,28,0.98));color:#e6eef8;border-radius:14px;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;font-size:30px;overflow:hidden}
+    .display .expr{color:#b6c0cc;font-size:13px}
+    .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+    button.k{height:58px;border-radius:14px;border:0;font-size:18px;cursor:pointer;background:rgba(250,250,250,0.7);box-shadow:0 6px 12px rgba(13,17,23,0.04);transition:transform .12s ease, box-shadow .12s ease}
+    button.k:active{transform:translateY(1px)}
+    button.k:hover{box-shadow:0 10px 22px rgba(13,17,23,0.06)}
+
+    button.op{background:linear-gradient(135deg,var(--accent-2),#ff9a6a);color:white;box-shadow:0 8px 20px rgba(255,122,69,0.12)}
+    button.equal{grid-column:span 2;background:linear-gradient(135deg,var(--accent),#8b5cf6);color:white;box-shadow:0 8px 20px rgba(109,40,217,0.12)}
     .wide{grid-column:span 2}
 
     /* Right: Split bill */
     .split{display:flex;flex-direction:column;gap:12px}
-    .field{display:flex;flex-direction:column;gap:6px}
+    .field{display:flex;flex-direction:column;gap:8px}
     label{font-size:13px;color:var(--muted)}
-    input[type=number],input[type=text],select{height:44px;padding:8px 10px;border-radius:8px;border:1px solid #e6e9ee;font-size:16px}
-    .row{display:flex;gap:10px}
+    input[type=number],input[type=text],select{height:46px;padding:10px 12px;border-radius:12px;border:1px solid rgba(10,12,20,0.04);font-size:16px;background:rgba(255,255,255,0.6)}
+    .row{display:flex;gap:12px}
     .row .col{flex:1}
-    .result{background:var(--glass);padding:12px;border-radius:8px}
-    .big{font-size:20px;font-weight:700}
+    .result{background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.08)}
+    .big{font-size:20px;font-weight:700;color:#0f172a}
 
     .controls{display:flex;gap:8px;align-items:center}
-    .toggle{padding:6px 10px;border-radius:8px;border:1px solid #e6e9ee;background:white;cursor:pointer}
+    .toggle{padding:8px 12px;border-radius:10px;border:1px solid rgba(10,12,20,0.04);background:rgba(255,255,255,0.6);cursor:pointer}
 
-    footer{grid-column:1/-1;color:var(--muted);font-size:13px;margin-top:8px}
+    footer{grid-column:1/-1;color:var(--muted);font-size:13px;margin-top:8px;text-align:center}
 
-    @media (max-width:900px){ .container{grid-template-columns:1fr; padding:12px} .card{padding:14px} }
+    @media (max-width:920px){ .container{grid-template-columns:1fr; padding:12px} .card{padding:14px} }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div class="logo">
-        <div class="title">Kalkulator Patungan Keren</div>
-        <div class="subtitle">Kalkulator biasa + Pembagi tagihan — pajak & service included</div>
+        <div class="title">Kalkulator Patungan — Glass</div>
+        <div class="subtitle">Elegan, Glassmorphism theme — pajak & service included</div>
       </div>
-      <!-- reference to uploaded image in the session -->
-      <div style="margin-left:auto;font-size:13px;color:var(--muted)">Sumber: <img src="/mnt/data/WhatsApp Image 2025-11-20 at 10.31.12.jpeg" alt="screenshot" style="height:34px;border-radius:6px;vertical-align:middle;box-shadow:0 4px 10px rgba(2,6,23,.06)"></div>
+      <div style="margin-left:auto;font-size:13px;color:var(--muted)">Sumber: <img src="/mnt/data/WhatsApp Image 2025-11-20 at 10.31.12.jpeg" alt="screenshot" style="height:34px;border-radius:8px;vertical-align:middle;box-shadow:0 6px 18px rgba(13,17,23,0.06)"></div>
     </header>
 
     <section class="card calc">
       <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
-        <div style="font-weight:600">Super Kalkulator</div>
+        <div style="font-weight:700;color:#0f172a">Super Kalkulator</div>
         <div class="controls">
           <button id="modeToggle" class="toggle">Mode: Kalkulator</button>
         </div>
@@ -119,12 +115,12 @@
         <button class="k equal" data-action="=">=</button>
       </div>
 
-      <div style="color:var(--muted);font-size:13px;margin-top:6px">Tip: gunakan tombol C untuk reset, atau klik 'Mode' untuk beralih ke bagian Patungan.</div>
+      <div style="color:var(--muted);font-size:13px;margin-top:6px">Tip: tekan C untuk reset, atau klik 'Mode' untuk beralih ke bagian Patungan.</div>
     </section>
 
     <aside class="card split" id="splitCard">
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:600">Patungan / Split Bill</div>
+        <div style="font-weight:700;color:#0f172a">Patungan / Split Bill</div>
         <div style="font-size:13px;color:var(--muted)">Realtime perhitungan</div>
       </div>
 
@@ -153,7 +149,7 @@
         <div style="display:flex;justify-content:space-between;gap:12px"><div>Subtotal</div><div id="r-sub">Rp0</div></div>
         <div style="display:flex;justify-content:space-between;gap:12px"><div>Pajak</div><div id="r-tax">Rp0</div></div>
         <div style="display:flex;justify-content:space-between;gap:12px"><div>Service</div><div id="r-service">Rp0</div></div>
-        <hr style="border:none;border-top:1px dashed #e6e9ee;margin:8px 0">
+        <hr style="border:none;border-top:1px dashed rgba(13,17,23,0.06);margin:8px 0">
         <div style="display:flex;justify-content:space-between;gap:12px"><div>Total</div><div id="r-total" class="big">Rp0</div></div>
         <div style="display:flex;justify-content:space-between;gap:12px;margin-top:8px"><div>Per orang</div><div id="r-per" class="big">Rp0</div></div>
       </div>
@@ -169,7 +165,7 @@
       </details>
     </aside>
 
-    <footer>File ini adalah satu halaman HTML yang berisi kedua fitur (kalkulator + patungan). Kamu bisa menyimpan sebagai <code>index.html</code> dan membuka di browser.</footer>
+    <footer>File ini adalah satu halaman HTML yang berisi kedua fitur (kalkulator + patungan). Simpan sebagai <code>index.html</code> dan buka di browser untuk mencoba.</footer>
   </div>
 
 <script>
@@ -293,19 +289,13 @@
 </script>
 
 <!--
-  Penjelasan kode (ringkasan):
+  Versi Glassmorphism ini mengubah style agar lebih elegan:
+  - Card memakai background semi-transparan + blur (backdrop-filter)
+  - Tombol memakai radius besar, hover + shadow lembut
+  - Display diperbesar, spacing ditingkatkan
+  - Tetap mempertahankan logika kalkulator & split bill
 
-  1) Struktur: halaman ini menggabungkan dua fitur — kalkulator standar (kiri) dan panel patungan (kanan).
-  2) Kalkulator: logika sederhana menyimpan 'first', 'operator', 'current' dan melakukan perhitungan ketika operator baru dipilih atau '=' ditekan. Keyboard support juga ditangani.
-  3) Patungan: input untuk subtotal, pajak%, service% dan jumlah orang. Perhitungan realtime menampilkan subtotal, jumlah pajak, service, total dan per-orang. Formatting memakai Intl.NumberFormat untuk menampilkan mata uang lokal.
-  4) Mode toggle: tombol untuk cepat berpindah fokus antara dua bagian.
-  5) Penggunaan: simpan file sebagai index.html dan buka di browser. Gambar referensi (screenshot) ditautkan dari path local yang ada di sesi: /mnt/data/WhatsApp Image 2025-11-20 at 10.31.12.jpeg
-
-  Kalau mau:
-  - Tambahkan opsi pembulatan (ceil/floor/nearest)
-  - Simpan riwayat perhitungan ke localStorage
-  - Versi React/komponen untuk integrasi
-  Beri tahu saja fitur mana yang mau ditambahkan selanjutnya.
+  Simpan file ini sebagai index.html dan buka di browser. Gambar referensi diambil dari path lokal sesi: /mnt/data/WhatsApp Image 2025-11-20 at 10.31.12.jpeg
 -->
 </body>
 </html>
